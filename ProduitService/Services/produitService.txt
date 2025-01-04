@@ -1,0 +1,91 @@
+﻿namespace ProduitService.Services
+{
+    public class ServiceProduit : IProduitService
+    {
+        private readonly ProduitServiceContext _context;
+
+        public ServiceProduit(ProduitServiceContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IEnumerable<Produit>> GetAllProducts()
+        {
+            return await _context.Produits.ToListAsync();
+        }
+        public async Task<Produit> GetProductById(int id)
+        {
+            return await _context.Produits.FindAsync(id);
+        }
+        public async Task<Produit> CreateProduct(Produit produit)
+        {
+            produit.dateAjout = DateTime.Now;
+            _context.Produits.Add(produit);
+            await _context.SaveChangesAsync();
+            return produit;
+        }
+        public async Task<IEnumerable<Produit>> GetProductsByCategorieId(int id)
+        {
+            var produits = await _context.Produits
+                .Where(p => p.CategorieId == id)
+                .ToListAsync();
+            return produits;
+        }
+        
+        public async Task<Produit> UpdateProduct(int id,Produit produit)
+        {
+            if (id != produit.id)
+                return null;
+
+            _context.Entry(produit).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return produit;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProduitExists(id))
+                    return null;
+                throw;
+            }
+        }
+        public async Task<bool> DeleteProduct(int id)
+        {
+            var produit = await _context.Produits.FindAsync(id);
+            if (produit == null)
+                return false;
+
+            _context.Produits.Remove(produit);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        public async Task<string> UploadImageAsync(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(file), "File cannot be null.");
+            }
+            var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "images");
+
+            if (!Directory.Exists(uploadsFolderPath))
+            {
+                Directory.CreateDirectory(uploadsFolderPath);
+            }
+            var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(file.FileName)}";
+            var filePath = Path.Combine(uploadsFolderPath, fileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+            return $"/images/{fileName}";
+
+        }
+        private bool ProduitExists(int id)
+        {
+            return _context.Produits.Any(e => e.id == id);
+        }
+    }
+}

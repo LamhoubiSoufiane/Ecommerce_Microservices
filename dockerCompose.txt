@@ -1,0 +1,201 @@
+version: '3.4'
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: GateWay/Dockerfile
+    ports:
+      - "5000:80"
+    networks:
+      - app-network
+    depends_on:
+      - categorieservice
+
+  categorieservice:
+    build:
+      context: .
+      dockerfile: CategorieService/Dockerfile
+    ports:
+      - "5001:80"
+    depends_on:
+      ecommerce-db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  produitservice:
+    build:
+      context: .
+      dockerfile: ProduitService/Dockerfile
+    ports:
+      - "5002:80"
+    networks:
+      - app-network
+
+  panierservice:
+    build:
+      context: .
+      dockerfile: PanierService/Dockerfile
+    ports:
+      - "5003:80"
+    networks:
+      - app-network
+
+  authentificationservice:
+    build:
+      context: .
+      dockerfile: AuthentificationService/Dockerfile
+    ports:
+      - "5004:80"
+    networks:
+      - app-network
+
+  achatservice:
+    build:
+      context: .
+      dockerfile: AchatService/Dockerfile
+    ports:
+      - "5005:80"
+    networks:
+      - app-network
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    environment:
+      KAFKA_ADVERTISED_LISTENER: INSIDE-KAFKA:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
+      KAFKA_LISTENER_NAME_INTERNAL: INSIDE-KAFKA
+      KAFKA_LISTENER_INTERNAL: INSIDE-KAFKA:9093
+      KAFKA_LISTENER_PORT_INTERNAL: 9093
+      KAFKA_LISTENER_INTERNAL_PORT: 9093
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_NAME_EXTERNAL: EXTERNAL
+      KAFKA_LISTENER_EXTERNAL: INSIDE-KAFKA:9093
+      KAFKA_LISTENER_EXTERNAL_PORT: 9093
+    ports:
+      - "9093:9093"
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+
+  ecommerce-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ecommerce_db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong!Password
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    networks:
+      - app-network
+    volumes:
+      - ecommerce-db-data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "YourStrong!Password" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  ecommerce-db-data:
+    driver: local
+
+
+
+
+
+package nuggets : 
+$env:ASPNETCORE_ENVIRONMENT = "Development"
+Add-Migration InitialCreate
+Update-Database
+
+
+
+
+
+version: '3.4'
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: GateWay/Dockerfile
+    ports:
+      - "5000:80"
+    networks:
+      - app-network
+
+  categorieservice:
+    build:
+      context: .
+      dockerfile: CategorieService/Dockerfile
+    ports:
+      - "5001:80"
+    depends_on:
+      - sqldata
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+    networks:
+      - app-network
+    volumes:
+      - ./Assets/images:/app/Assets/images
+  produitservice:
+    build:
+      context: .
+      dockerfile: ProduitService/Dockerfile
+    ports:
+      - "5002:80"
+    depends_on:
+      - sqldata
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+    networks:
+      - app-network
+    volumes:
+      - ./Assets/images:/app/Assets/images
+
+  daoservice:
+    build:
+      context: .
+      dockerfile: DAO_Service/Dockerfile
+    ports:
+      - "5003:80"
+    depends_on:
+      - sqldata
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+    networks:
+      - app-network
+    volumes:
+      - ./Assets/images:/app/Assets/images
+
+  sqldata:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=Pass@word"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata_volume:/var/opt/mssql 
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  sqldata_volume:
+    driver: local

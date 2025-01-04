@@ -1,0 +1,136 @@
+{
+  "Routes": [
+    /*---------------------- DAO --------------------*/
+    {
+      "DownstreamPathTemplate": "/api/dao/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "daoservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/dao/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/dao",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "daoservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/dao",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    /*---------------------- FIN DAO --------------------*/
+    /*---------------------- CATEGORIES --------------------*/
+    {
+      "DownstreamPathTemplate": "/api/categorie/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "categorieservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/categorie/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/categorie",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "categorieservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/categorie",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    /*---------------------- FIN CATEGORIES --------------------*/
+    /*---------------------- PRODUITS --------------------*/
+    {
+      "DownstreamPathTemplate": "/api/produit/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "produitservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/produit/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/produit",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "produitservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/produit",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    /*---------------------- FIN PRODUITS --------------------*/
+    /*---------------------- PANIER --------------------*/
+    {
+      "DownstreamPathTemplate": "/api/panier/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "panierservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/panier/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/panier",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "panierservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/panier",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    /*---------------------- FIN PANIER --------------------*/
+    /*---------------------- ACHAT --------------------*/
+    {
+      "DownstreamPathTemplate": "/api/achat/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "achatservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/achat/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/achat",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "achatservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/achat",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000"
+  }
+}

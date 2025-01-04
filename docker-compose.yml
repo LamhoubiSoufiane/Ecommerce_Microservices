@@ -1,0 +1,107 @@
+
+
+services:
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: GateWay/Dockerfile
+    ports:
+      - "5000:80"
+    networks:
+      - app-network
+
+  categorieservice:
+    container_name: categorieservice
+    build:
+      context: .
+      dockerfile: CategorieService/Dockerfile
+    ports:
+      - "5001:80"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+    
+    networks:
+      - app-network
+  achatservice:
+    container_name: achatservice
+    build:
+      context: .
+      dockerfile: AchatService/Dockerfile
+    ports:
+      - "5005:80"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+    networks:
+      - app-network
+
+  produitservice:
+    container_name: produitservice
+    build:
+      context: .
+      dockerfile: ProduitService/Dockerfile
+    ports:
+      - "5002:80"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+    networks:
+      - app-network
+
+  panierservice:
+    container_name: panierservice
+    build:
+      context: .
+      dockerfile: PanierService/Dockerfile
+    ports:
+      - "5004:80"
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  daoservice:
+    container_name: daoservice
+    build:
+      context: .
+      dockerfile: DAO_Service/Dockerfile
+    ports:
+      - "5003:80"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+    networks:
+      - app-network
+    volumes:
+      - ./Assets/images:/app/Assets/images
+
+  sqldata:
+    container_name: sqldata
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=Pass@word"
+      - SQL_AUTHENTICATION=SQL
+
+    ports:
+      - "1433:1433"
+
+    volumes:
+      - sqldata_volume:/var/opt/mssql 
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    name: ecommerce-network
+    driver: bridge
+
+volumes:
+  sqldata_volume:
+    name: sqldata
+    driver: local
