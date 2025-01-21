@@ -1,3 +1,4 @@
+using AchatService.Data;
 using AchatService.Interfaces;
 using AchatService.Models;
 using Microsoft.Extensions.Configuration;
@@ -8,29 +9,31 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace AchatService.Services
 {
     public class ServiceAchat : IAchatService
     {
-        private readonly HttpClient _httpClient;
         private readonly HttpClient _httpPanierClient;
         private readonly string _panierServiceUrl;
-        private readonly string _baseUrl;
+        private readonly EcommerceAchatDB _context;
 
-        public ServiceAchat(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+        public ServiceAchat(EcommerceAchatDB context,IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
-            _httpClient = httpClientFactory.CreateClient("DAO_Service");
+            _context = context;
+            //_httpClient = httpClientFactory.CreateClient("DAO_Service");
             _httpPanierClient = httpClientFactory.CreateClient("Panier_Service");
             _panierServiceUrl = "api/panier";
-            _baseUrl = "api/achats";
-    }
+            //_baseUrl = "api/achats";
+        }   
 
         public async Task<Achat> CreateAchatAsync(string userId)
         {
             try
             {
-                // 1. Récupérer le panier depuis le service panier
+                
                 var panierResponse = await _httpPanierClient.GetAsync(_panierServiceUrl);
                 if (!panierResponse.IsSuccessStatusCode)
                     throw new Exception("Erreur lors de la récupération du panier");
@@ -48,15 +51,9 @@ namespace AchatService.Services
                     lignesPanier = lignesPanier,
                     Status = "En attente"
                 };
-
-              
-                var response = await _httpClient.PostAsJsonAsync(_baseUrl, achat);
-                response.EnsureSuccessStatusCode();
-                if (!response.IsSuccessStatusCode)
-                    throw new Exception("Erreur lors de l'enregistrement de l'achat");
-                await _httpClient.DeleteAsync(_panierServiceUrl);
-
-                return await response.Content.ReadFromJsonAsync<Achat>(); ;
+                _context.Achats.Add(achat);
+                await _context.SaveChangesAsync();
+                return achat;
             }
             catch (Exception ex)
             {
@@ -64,24 +61,14 @@ namespace AchatService.Services
             }
         }
 
-        public async Task<List<Achat>> GetUserAchatsAsync(string userId)
+        public async Task<IEnumerable<Achat>> GetUserAchatsAsync(string userId)
         {
-            try
-            {
-                var response = await _httpClient.GetAsync($"{_baseUrl}/user/{userId}");
-                if (!response.IsSuccessStatusCode)
-                    throw new Exception("Erreur lors de la récupération des achats");
-
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<Achat>>(content);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Erreur lors de la récupération des achats : {ex.Message}");
-            }
+            return await _context.Achats
+                .Where(a => a.user_Id == userId)
+                .ToListAsync();
         }
 
-        public async Task<Achat> GetAchatByIdAsync(int achatId)
+        /*public async Task<Achat> GetAchatByIdAsync(int achatId)
         {
             try
             {
@@ -117,6 +104,6 @@ namespace AchatService.Services
             {
                 throw new Exception($"Erreur lors de la mise à jour du statut : {ex.Message}");
             }
-        }
+        }*/
     }
 }

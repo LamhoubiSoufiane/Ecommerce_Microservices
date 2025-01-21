@@ -7,68 +7,63 @@ using System.IO;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
+using CategorieService.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace CategorieService.Services
 {
     public class ServiceCategorie : ICategorieService
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _baseUrl;
+        private readonly EcommerceCategorieDB _context;
 
-        public ServiceCategorie(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+        public ServiceCategorie(EcommerceCategorieDB context)
         {
-            _httpClient = httpClientFactory.CreateClient("DAO_Service");
-            _baseUrl = "api/categories"; // URL du service de données
+            _context = context;
         }
 
         public async Task<IEnumerable<Categorie>> GetAllCategoriesAsync()
         {
-            var response=await _httpClient.GetAsync(_baseUrl);
-            response.EnsureSuccessStatusCode();
-            var categories = await response.Content.ReadFromJsonAsync<List<Categorie>>();
-            return categories;
+            return await _context.Categories.ToListAsync();
         }
 
         public async Task<Categorie> GetCategorieByIdAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"{_baseUrl}/{id}");
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Categorie>();
+            return await _context.Categories.FindAsync(id);
         }
-        /*public async Task<TResponse> PostAsync<TRequest, TResponse>(string endpoint, TRequest data)
-        {
-            var response = await _httpClient.PostAsJsonAsync(endpoint, data);
 
-            response.EnsureSuccessStatusCode();
-
-            var result = await response.Content.ReadFromJsonAsync<TResponse>();
-            return result;
-        }*/
         public async Task<Categorie> CreateCategorieAsync(Categorie categorie)
         {
-            //return await PostAsync<Categorie, Categorie>(_baseUrl, categorie);
-            var response = await _httpClient.PostAsJsonAsync(_baseUrl, categorie);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Categorie>();
+            _context.Categories.Add(categorie);
+            await _context.SaveChangesAsync();
+            return categorie;
         }
 
         public async Task<Categorie> UpdateCategorieAsync(Categorie categorie)
         {
-            var response = await _httpClient.PutAsJsonAsync(_baseUrl, categorie);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Categorie>();
+            _context.Entry(categorie).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return categorie;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CategorieExists(categorie.id))
+                    return null;
+                throw;
+            }
         }
 
         public async Task<bool> DeleteCategorieAsync(int id)
         {
-            var categorie = await GetCategorieByIdAsync(id);
+            var categorie = await _context.Categories.FindAsync(id);
             if (categorie == null)
-            {
                 return false;
-            }
-            var response = await _httpClient.DeleteAsync($"{_baseUrl}/{id}");
-            response.EnsureSuccessStatusCode();
-            return response.IsSuccessStatusCode;
+
+            _context.Categories.Remove(categorie);
+            await _context.SaveChangesAsync();
+            return true;
         }
         public async Task<string> UploadImageAsync(IFormFile file)
         {
@@ -89,8 +84,12 @@ namespace CategorieService.Services
             {
                 await file.CopyToAsync(fileStream);
             }
-            return $"/images/{fileName}";
+            return $"/{fileName}";
 
+        }
+        private bool CategorieExists(int id)
+        {
+            return _context.Categories.Any(e => e.id == id);
         }
     }
 }

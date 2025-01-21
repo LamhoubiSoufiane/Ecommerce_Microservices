@@ -1,9 +1,11 @@
+using AchatService.Data;
 using AchatService.Interfaces;
 using AchatService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +15,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.IO;
 
 namespace AchatService
 {
@@ -39,21 +43,34 @@ namespace AchatService
                                .AllowCredentials();
                     });
             });
-            services.AddHttpClient("DAO_Service", client =>
-            {
-                client.BaseAddress = new Uri("http://daoservice/");
-            });
+
             services.AddHttpClient("Panier_Service", client =>
             {
                 client.BaseAddress = new Uri("http://panierservice/");
             });
+            services.AddDbContext<EcommerceAchatDB>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
 
             services.AddScoped<IAchatService, ServiceAchat>();
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AchatService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "AchatService API",
+                    Version = "v1",
+                    Description = "API pour la gestion des achats"
+                });
+
+                // Pour prendre en compte les commentaires XML
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+                
+                c.EnableAnnotations();
+                c.UseAllOfToExtendReferenceSchemas();
             });
         }
 
@@ -63,9 +80,20 @@ namespace AchatService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AchatService v1"));
             }
+
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = false;
+                c.RouteTemplate = "swagger/{documentName}/swagger.json";
+            });
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AchatService API V1");
+                c.RoutePrefix = "swagger";
+            });
+
             app.UseRouting();
 
             app.UseCors("AllowFrontend");
@@ -78,6 +106,19 @@ namespace AchatService
             {
                 endpoints.MapControllers();
             });
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<EcommerceAchatDB>();
+                    context.Database.EnsureCreated();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while creating the database: {ex.Message}");
+                }
+            }
         }
     }
 }

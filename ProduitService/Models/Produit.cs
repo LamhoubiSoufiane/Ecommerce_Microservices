@@ -1,4 +1,3 @@
-﻿using ProduitService.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -28,9 +27,8 @@ namespace ProduitService
 
         public string imageUrl { get; set; }
 
-        [ForeignKey("Categories")]
         public int CategorieId { get; set; }
 
-        public virtual Categorie Categorie { get; set; }
+        //public virtual Categorie Categorie { get; set; }
     }
 }

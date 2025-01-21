@@ -7,8 +7,8 @@ namespace AchatService.Interfaces
     public interface IAchatService
     {
         Task<Achat> CreateAchatAsync(string userId);
-        Task<List<Achat>> GetUserAchatsAsync(string userId);
-        Task<Achat> GetAchatByIdAsync(int achatId);
-        Task<bool> UpdateAchatStatusAsync(int achatId, string status);
+        Task<IEnumerable<Achat>> GetUserAchatsAsync(string userId);
+        //Task<Achat> GetAchatByIdAsync(int achatId);
+        //Task<bool> UpdateAchatStatusAsync(int achatId, string status);
     }
 }

@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 
 namespace PanierService
 {
@@ -61,7 +63,19 @@ namespace PanierService
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PanierService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "PanierService API",
+                    Version = "v1",
+                    Description = "API pour la gestion du panier"
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+                
+                c.EnableAnnotations();
+                c.UseAllOfToExtendReferenceSchemas();
             });
             services.AddScoped<IPanierService, ServicePanier>();
         }
@@ -86,6 +100,18 @@ namespace PanierService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = false;
+                c.RouteTemplate = "swagger/{documentName}/swagger.json";
+            });
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "PanierService API V1");
+                c.RoutePrefix = "swagger";
             });
         }
     }

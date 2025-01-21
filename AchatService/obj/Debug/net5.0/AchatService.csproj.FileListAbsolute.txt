@@ -5,7 +5,6 @@ D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\bin\Debug\net5.0\AchatService.runtimeconfig.json
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\bin\Debug\net5.0\AchatService.runtimeconfig.dev.json
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\bin\Debug\net5.0\AchatService.dll
-D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\bin\Debug\net5.0\ref\AchatService.dll
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\bin\Debug\net5.0\AchatService.pdb
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\bin\Debug\net5.0\Humanizer.dll
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\bin\Debug\net5.0\Microsoft.Data.SqlClient.dll
@@ -49,11 +48,17 @@ D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\AchatService.MvcApplicationPartsAssemblyInfo.cs
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\AchatService.MvcApplicationPartsAssemblyInfo.cache
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\staticwebassets\AchatService.StaticWebAssets.Manifest.cache
-D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\staticwebassets\AchatService.StaticWebAssets.xml
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\scopedcss\bundle\AchatService.styles.css
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\AchatService.RazorTargetAssemblyInfo.cache
-D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\AchatService.csproj.CopyComplete
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\AchatService.dll
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\ref\AchatService.dll
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\AchatService.pdb
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\AchatService.genruntimeconfig.cache
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\AchatService.sourcelink.json
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\staticwebassets\AchatService.StaticWebAssets.Pack.cache
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\staticwebassets\msbuild.AchatService.Microsoft.AspNetCore.StaticWebAssets.props
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\staticwebassets\msbuild.build.AchatService.props
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\staticwebassets\msbuild.buildMultiTargeting.AchatService.props
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\staticwebassets\msbuild.buildTransitive.AchatService.props
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\AchatSer.9EAFF44D.Up2Date
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\AchatService\obj\Debug\net5.0\refint\AchatService.dll

@@ -1,60 +1,7 @@
 {
   "Routes": [
-    /*---------------------- DAO --------------------*/
     {
-      "DownstreamPathTemplate": "/api/dao/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "daoservice",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/dao/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/dao",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "daoservice",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/dao",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
-    /*---------------------- FIN DAO --------------------*/
-    /*---------------------- CATEGORIES --------------------*/
-    {
-      "DownstreamPathTemplate": "/api/categorie/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "categorieservice",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/categorie/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/categorie",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "categorieservice",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/categorie",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
-    /*---------------------- FIN CATEGORIES --------------------*/
-    /*---------------------- PRODUITS --------------------*/
-    {
-      "DownstreamPathTemplate": "/api/produit/{everything}",
+      "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -63,50 +10,11 @@
         }
       ],
       "UpstreamPathTemplate": "/produit/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "produit"
     },
     {
-      "DownstreamPathTemplate": "/api/produit",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "produitservice",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/produit",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
-    /*---------------------- FIN PRODUITS --------------------*/
-    /*---------------------- PANIER --------------------*/
-    {
-      "DownstreamPathTemplate": "/api/panier/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "panierservice",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/panier/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/panier",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "panierservice",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/panier",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
-    /*---------------------- FIN PANIER --------------------*/
-    /*---------------------- ACHAT --------------------*/
-    {
-      "DownstreamPathTemplate": "/api/achat/{everything}",
+      "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -115,22 +23,165 @@
         }
       ],
       "UpstreamPathTemplate": "/achat/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "achat",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
-      "DownstreamPathTemplate": "/api/achat",
+      "DownstreamPathTemplate": "/api/Auth/login",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "achatservice",
+          "Host": "authentificationservice",
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/achat",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "UpstreamPathTemplate": "/auth/Auth/login",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "auth",
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SecurityOptions": {
+        "IPAllowedList": [],
+        "IPBlockedList": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Auth/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "authentificationservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/Auth/register",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "auth",
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SecurityOptions": {
+        "IPAllowedList": [],
+        "IPBlockedList": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "authentificationservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "auth"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "categorieservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/categorie/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "categorie"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imageservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/image/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "image"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "panierservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/panier/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "panier"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "produit",
+      "Config": [
+        {
+          "Name": "ProduitService API",
+          "Version": "v1",
+          "Url": "http://produitservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "achat",
+      "Config": [
+        {
+          "Name": "AchatService API",
+          "Version": "v1",
+          "Url": "http://achatservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "auth",
+      "Config": [
+        {
+          "Name": "AuthentificationService API",
+          "Version": "v1",
+          "Url": "http://authentificationservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "categorie",
+      "Config": [
+        {
+          "Name": "CategorieService API",
+          "Version": "v1",
+          "Url": "http://categorieservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "image",
+      "Config": [
+        {
+          "Name": "ImageService API",
+          "Version": "v1",
+          "Url": "http://imageservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "panier",
+      "Config": [
+        {
+          "Name": "PanierService API",
+          "Version": "v1",
+          "Url": "http://panierservice:80/swagger/v1/swagger.json"
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000"
+    "BaseUrl": "http://gateway"
   }
 }

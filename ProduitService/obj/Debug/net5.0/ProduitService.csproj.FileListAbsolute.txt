@@ -5,7 +5,6 @@ D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\bin\Debug\net5.0\ProduitService.runtimeconfig.json
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\bin\Debug\net5.0\ProduitService.runtimeconfig.dev.json
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\bin\Debug\net5.0\ProduitService.dll
-D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\bin\Debug\net5.0\ref\ProduitService.dll
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\bin\Debug\net5.0\ProduitService.pdb
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\bin\Debug\net5.0\Humanizer.dll
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\bin\Debug\net5.0\Microsoft.Data.SqlClient.dll
@@ -49,11 +48,17 @@ D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\ProduitService.MvcApplicationPartsAssemblyInfo.cs
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\ProduitService.MvcApplicationPartsAssemblyInfo.cache
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\staticwebassets\ProduitService.StaticWebAssets.Manifest.cache
-D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\staticwebassets\ProduitService.StaticWebAssets.xml
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\scopedcss\bundle\ProduitService.styles.css
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\ProduitService.RazorTargetAssemblyInfo.cache
-D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\ProduitService.csproj.CopyComplete
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\ProduitService.dll
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\ref\ProduitService.dll
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\ProduitService.pdb
 D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\ProduitService.genruntimeconfig.cache
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\ProduitService.sourcelink.json
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\staticwebassets\ProduitService.StaticWebAssets.Pack.cache
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\staticwebassets\msbuild.ProduitService.Microsoft.AspNetCore.StaticWebAssets.props
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\staticwebassets\msbuild.build.ProduitService.props
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\staticwebassets\msbuild.buildMultiTargeting.ProduitService.props
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\staticwebassets\msbuild.buildTransitive.ProduitService.props
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\ProduitS.1E7655B8.Up2Date
+D:\ILISI\ILISI 2024-2025 3A\ASP.NET - B -\microservices\Ecommerce_Microservices\ProduitService\obj\Debug\net5.0\refint\ProduitService.dll

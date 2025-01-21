@@ -1,6 +1,7 @@
 using AchatService.Interfaces;
 using AchatService.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace AchatService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class AchatController : ControllerBase
     {
         private readonly IAchatService _achatService;
@@ -20,13 +22,17 @@ namespace AchatService.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<Achat>> CreateAchat()
         {
             try
             {
-                var userId = "1";
-                    //User.Identity.Name;
+                //var userId = "1";
+                var userId = User.Identity.Name;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("User ID is missing.");
+                }
                 var achat = await _achatService.CreateAchatAsync(userId);
                 return Ok(achat);
             }
@@ -36,14 +42,18 @@ namespace AchatService.Controllers
             }
         }
 
-        [HttpGet("user")]
-        //[Authorize]
-        public async Task<ActionResult<IEnumerable<Achat>>> GetUserAchats()
+        /// <summary>
+        /// Description de l'endpoint
+        /// </summary>
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Achat>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<Achat>>> GetAchats()
         {
             try
             {
-                //var userId = User.Identity.Name;
-                var userId = "1";
+                var userId = User.Identity.Name;
+                //var userId = "1";
                 var achats = await _achatService.GetUserAchatsAsync(userId);
                 return Ok(achats);
             }
@@ -53,9 +63,9 @@ namespace AchatService.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        //[HttpGet("{id}")]
         //[Authorize]
-        public async Task<ActionResult<Achat>> GetAchat(int id)
+        /*public async Task<ActionResult<Achat>> GetAchat(int id)
         {
             try
             {
@@ -64,8 +74,8 @@ namespace AchatService.Controllers
                     return NotFound();
 
                 // Vérifier que l'utilisateur actuel est bien le propriétaire de l'achat
-                /*if (achat.user_Id != User.Identity.Name)
-                    return Forbid();*/
+                if (achat.user_Id != User.Identity.Name)
+                    return Forbid();
 
                 return Ok(achat);
             }
@@ -73,7 +83,7 @@ namespace AchatService.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
+        }*/
 
         /*[HttpPut("{id}/status")]
         [Authorize]

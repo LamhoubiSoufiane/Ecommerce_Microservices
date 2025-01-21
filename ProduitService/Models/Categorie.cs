@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProduitService.Models
+/*namespace ProduitService.Models
 {
     [Table("Categories")]
     public class Categorie
@@ -19,4 +19,4 @@ namespace ProduitService.Models
 
         public virtual ICollection<Produit> produits { get; set; } = new List<Produit>();
     }
-}
+}*/

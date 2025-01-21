@@ -10,6 +10,9 @@ using System.Net.Http;
 using Microsoft.Extensions.Http;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
+using CategorieService.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace CategorieService
 {
@@ -37,16 +40,31 @@ namespace CategorieService
 
             services.AddControllers();
 
-            services.AddHttpClient("DAO_Service", client =>
+            /*services.AddHttpClient("DAO_Service", client =>
             {
                 client.BaseAddress = new Uri("http://daoservice/");
-            });
+            });*/
+            services.AddDbContext<EcommerceCategorieDB>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<ICategorieService, ServiceCategorie>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CategorieService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "CategorieService API",
+                    Version = "v1",
+                    Description = "API pour la gestion des catégories"
+                });
+
+                // Pour prendre en compte les commentaires XML
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+                
+                c.EnableAnnotations();
+                c.UseAllOfToExtendReferenceSchemas();
             });
         }
 
@@ -63,12 +81,7 @@ namespace CategorieService
 
             app.UseCors("AllowFrontend");
             
-           /* app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "Assets", "images")),
-                RequestPath = "/images"
-            });*/
+           
 
             app.UseAuthorization();
             app.UseHttpsRedirection();
@@ -76,6 +89,34 @@ namespace CategorieService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<EcommerceCategorieDB>();
+                    context.Database.EnsureCreated();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while creating the database: {ex.Message}");
+                }
+            }
+
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = false;
+                c.RouteTemplate = "swagger/{documentName}/swagger.json";
+            });
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CategorieService API V1");
+                c.RoutePrefix = "swagger";
             });
         }
     }

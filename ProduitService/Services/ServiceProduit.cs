@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using ProduitService.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,57 +14,58 @@ namespace ProduitService.Services
 {
     public class ServiceProduit : IProduitService
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _baseUrl;
-        public ServiceProduit(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+        private readonly EcommerceProduitDB _context;
+        public ServiceProduit(EcommerceProduitDB context)
         {
-            _httpClient = httpClientFactory.CreateClient("DAO_Service");
-            _baseUrl = "api/produits"; // URL du service de données
+            _context = context;
         }
 
         public async Task<IEnumerable<Produit>> GetAllProductsAsync()
         {
-            var response = await _httpClient.GetAsync(_baseUrl);
-            response.EnsureSuccessStatusCode();
-            var produits = await response.Content.ReadFromJsonAsync<List<Produit>>();
-            return produits;
-
+            return await _context.Produits.ToListAsync();
         }
         public async Task<Produit> GetProductByIdAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"{_baseUrl}/{id}");
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Produit>();
+            return await _context.Produits.FindAsync(id);
         }
         public async Task<Produit> CreateProductAsync(Produit produit)
         {
-            produit.dateAjout = DateTime.Now;
-            var response = await _httpClient.PostAsJsonAsync(_baseUrl, produit);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Produit>();
+            _context.Produits.Add(produit);
+            await _context.SaveChangesAsync();
+            return produit;
         }
         public async Task<IEnumerable<Produit>> GetProductsByCategorieIdAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"{_baseUrl}/productsByCat/{id}");
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<List<Produit>>();
+            var produits = await _context.Produits
+               .Where(p => p.CategorieId == id)
+               .ToListAsync();
+            return produits;
         }
 
         public async Task<Produit> UpdateProductAsync(Produit produit)
         {
-            var response = await _httpClient.PutAsJsonAsync(_baseUrl, produit);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Produit>();
+            _context.Entry(produit).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return produit;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProduitExists(produit.id))
+                    return null;
+                throw;
+            }
         }
         public async Task<bool> DeleteProductAsync(int id)
         {
-            var produit = await GetProductByIdAsync(id);
+            var produit = await _context.Produits.FindAsync(id);
             if (produit == null)
-            {
                 return false;
-            }
-            var response = await _httpClient.DeleteAsync($"{_baseUrl}/{id}");
-            return response.IsSuccessStatusCode;
+
+            _context.Produits.Remove(produit);
+            await _context.SaveChangesAsync();
+            return true;
         }
         public async Task<string> UploadImageAsync(IFormFile file)
         {
@@ -84,8 +86,12 @@ namespace ProduitService.Services
             {
                 await file.CopyToAsync(fileStream);
             }
-            return $"/images/{fileName}";
+            return $"/{fileName}";
 
+        }
+        private bool ProduitExists(int id)
+        {
+            return _context.Produits.Any(e => e.id == id);
         }
     }
 }

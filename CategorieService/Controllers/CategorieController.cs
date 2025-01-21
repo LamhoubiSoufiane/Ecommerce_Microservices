@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace CategorieService.Controllers
@@ -37,6 +38,20 @@ namespace CategorieService.Controllers
             }
             return Ok(categorie);
         }
+        
+
+        
+
+        /*
+        public IActionResult GetImage(string filename)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "images", filename);
+            if (!System.IO.File.Exists(path))
+                return NotFound();
+
+            var image = System.IO.File.OpenRead(path);
+            return File(image, "image/jpeg"); 
+        }*/
 
         [HttpPost]
         public async Task<ActionResult<Categorie>> CreateCategorie([FromForm] Categorie categorie, [FromForm] IFormFile upload)

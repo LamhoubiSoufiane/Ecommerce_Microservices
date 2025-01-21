@@ -1,5 +1,3 @@
-
-
 services:
   gateway:
     container_name: gateway
@@ -10,6 +8,13 @@ services:
       - "5000:80"
     networks:
       - app-network
+    depends_on:
+      - authentificationservice
+      - produitservice
+      - categorieservice
+      - panierservice
+      - achatservice
+      - imageservice
 
   categorieservice:
     container_name: categorieservice
@@ -19,10 +24,29 @@ services:
     ports:
       - "5001:80"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
-    
+      - ConnectionStrings__DefaultConnection=Server=sqlservercategorie;Database=EcommerceCategorieDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+    depends_on:
+      - sqlservercategorie
     networks:
       - app-network
+    volumes:
+      - ./Assets/images:/app/Assets/images
+
+  sqlservercategorie:
+    container_name: sqlservercategorie
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=Pass@word"
+      - "MSSQL_PID=Express"
+      - SQL_AUTHENTICATION=SQL
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlservercategorie_volume:/var/opt/mssql 
+    networks:
+      - app-network
+
   achatservice:
     container_name: achatservice
     build:
@@ -31,7 +55,26 @@ services:
     ports:
       - "5005:80"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__DefaultConnection=Server=sqlserverachat;Database=EcommerceAchatDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+    depends_on:
+      - sqlserverachat
+    networks:
+      - app-network
+    volumes:
+      - ./Assets/images:/app/Assets/images
+
+  sqlserverachat:
+    container_name: sqlserverachat
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=Pass@word"
+      - "MSSQL_PID=Express"
+      - SQL_AUTHENTICATION=SQL
+    ports:
+      - "1434:1433"
+    volumes:
+      - sqlserverachat_volume:/var/opt/mssql 
     networks:
       - app-network
 
@@ -43,7 +86,26 @@ services:
     ports:
       - "5002:80"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__DefaultConnection=Server=sqlserverproduit;Database=EcommerceProduitDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+    depends_on:
+      - sqlserverproduit
+    networks:
+      - app-network
+    volumes:
+      - ./Assets/images:/app/Assets/images
+
+  sqlserverproduit:
+    container_name: sqlserverproduit
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=Pass@word"
+      - "MSSQL_PID=Express"
+      - SQL_AUTHENTICATION=SQL
+    ports:
+      - "1435:1433"
+    volumes:
+      - sqlserverproduit_volume:/var/opt/mssql 
     networks:
       - app-network
 
@@ -58,50 +120,70 @@ services:
       - redis
     networks:
       - app-network
-
   redis:
     image: redis:latest
     ports:
       - "6379:6379"
     networks:
       - app-network
-
-  daoservice:
-    container_name: daoservice
+  imageservice:
+    container_name: imageservice
     build:
       context: .
-      dockerfile: DAO_Service/Dockerfile
+      dockerfile: ImageService/Dockerfile
     ports:
       - "5003:80"
-    environment:
-      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=EcommerceDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
     networks:
       - app-network
     volumes:
       - ./Assets/images:/app/Assets/images
 
-  sqldata:
-    container_name: sqldata
+  authentificationservice:
+    container_name: authentificationservice
+    build:
+      context: .
+      dockerfile: AuthentificationService/Dockerfile
+    ports:
+      - "5006:80"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserverauthentification;Database=EcommerceAuthDB;User Id=sa;Password=Pass@word;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - sqlserverauthentification
+    networks:
+      - app-network
+
+  sqlserverauthentification:
+    container_name: sqlserverauthentification
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
       - "ACCEPT_EULA=Y"
       - "SA_PASSWORD=Pass@word"
+      - "MSSQL_PID=Express"
       - SQL_AUTHENTICATION=SQL
-
     ports:
-      - "1433:1433"
-
-    volumes:
-      - sqldata_volume:/var/opt/mssql 
+      - "1439:1433"
     networks:
       - app-network
+    volumes:
+      - sqlserverauthentification_volume:/var/opt/mssql
 
+ 
 networks:
   app-network:
     name: ecommerce-network
     driver: bridge
 
 volumes:
-  sqldata_volume:
-    name: sqldata
+  sqlservercategorie_volume:
+    name: sqlservercategorie
+    driver: local
+  sqlserverachat_volume:
+    name: sqlserverachat
+    driver: local
+  sqlserverproduit_volume:
+    name: sqlserverproduit
+    driver: local
+  sqlserverauthentification_volume:
+    name: sqlserverauthentification
     driver: local
