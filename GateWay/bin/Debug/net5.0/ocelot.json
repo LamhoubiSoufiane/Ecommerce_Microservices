@@ -1,0 +1,85 @@
+{
+  "Routes": [
+    /*---------------------- DAO --------------------*/
+    {
+      "DownstreamPathTemplate": "/api/dao/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "daoservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/dao/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/dao",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "daoservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/dao",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    /*---------------------- FIN DAO --------------------*/
+    /*---------------------- CATEGORIES --------------------*/
+    {
+      "DownstreamPathTemplate": "/api/categorie/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "categorieservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/categorie/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/categorie",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "categorieservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/categorie",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    /*---------------------- FIN CATEGORIES --------------------*/
+    /*---------------------- PRODUITS --------------------*/
+    {
+      "DownstreamPathTemplate": "/api/produit/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "produitservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/produit/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/produit",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "produitservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/produit",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    }
+    /*---------------------- FIN PRODUITS --------------------*/
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000"
+  }
+}

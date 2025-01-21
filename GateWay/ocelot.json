@@ -1,0 +1,187 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "produitservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/produit/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "produit"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "achatservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/achat/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "achat",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Auth/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "authentificationservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/Auth/login",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "auth",
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SecurityOptions": {
+        "IPAllowedList": [],
+        "IPBlockedList": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Auth/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "authentificationservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/Auth/register",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "auth",
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SecurityOptions": {
+        "IPAllowedList": [],
+        "IPBlockedList": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "authentificationservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "auth"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "categorieservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/categorie/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "categorie"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imageservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/image/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "image"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "panierservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/panier/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "panier"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "produit",
+      "Config": [
+        {
+          "Name": "ProduitService API",
+          "Version": "v1",
+          "Url": "http://produitservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "achat",
+      "Config": [
+        {
+          "Name": "AchatService API",
+          "Version": "v1",
+          "Url": "http://achatservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "auth",
+      "Config": [
+        {
+          "Name": "AuthentificationService API",
+          "Version": "v1",
+          "Url": "http://authentificationservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "categorie",
+      "Config": [
+        {
+          "Name": "CategorieService API",
+          "Version": "v1",
+          "Url": "http://categorieservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "image",
+      "Config": [
+        {
+          "Name": "ImageService API",
+          "Version": "v1",
+          "Url": "http://imageservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "panier",
+      "Config": [
+        {
+          "Name": "PanierService API",
+          "Version": "v1",
+          "Url": "http://panierservice:80/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://gateway"
+  }
+}
